@@ -14,6 +14,9 @@ from pathlib import Path,os
 import os
 from dotenv import load_dotenv
 import dj_database_url
+import pymysql
+pymysql.install_as_MySQLdb()
+
 
 load_dotenv()
 
