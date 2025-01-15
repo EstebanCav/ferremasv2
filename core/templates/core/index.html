@@ -1,0 +1,327 @@
+
+{% extends 'core/base.html' %}
+{% load static %}
+{% block nav %}
+<a href="{% url 'index' %}" class="nav-item nav-link active">Inicio</a>
+{% for group in user.groups.all %}
+        {% if group.name == 'cliente' %}
+<a href="{% url 'historial' %}" class="nav-item nav-link">Historial de compra</a>
+        {% endif %}
+    {% endfor %}
+    {% for group in user.groups.all %}
+        {% if group.name == 'vendedor' %}
+<a href="{% url 'add' %}" class="nav-item nav-link">Agregar Producto</a>
+<a href="{% url 'CambiarGrupo' %}" class="nav-item nav-link">Cambiar Grupo</a>
+<a href="{% url 'seguimiento' %}" class="nav-item nav-link">Seguimiento</a>
+<a href="{% url 'listar_solicitudes_pago' %}" class="nav-item nav-link">Solicitudes</a>
+        {% endif %}
+    {% endfor %}
+
+    {% for group in user.groups.all %}
+        {% if group.name == 'bodeguero' %}
+<a href="{% url 'add' %}" class="nav-item nav-link">Agregar Producto</a>
+<a href="{% url 'seguimiento' %}" class="nav-item nav-link">Seguimiento</a>
+<a href="{% url 'listar_solicitudes_pago' %}" class="nav-item nav-link">Solicitudes</a>
+        {% endif %}
+    {% endfor %}
+
+{% if user.is_authenticated %}
+<a href="{% url 'Carrito' %}" class=" nav-item nav-link"><i class="fa fa-shopping-cart "></i></a>
+{% else %}
+<a onclick="NoIniciado()" class=" nav-item nav-link"><i class="fa fa-shopping-cart "></i></a>
+{% endif %}
+
+{% for group in user.groups.all %}
+        {% if group.name == 'admin' %}
+        <a href="{% url 'add' %}" class="nav-item nav-link">Agregar Producto</a>
+        <a href="{% url 'CambiarGrupo' %}" class="nav-item nav-link">Cambiar Grupo</a>
+        <a href="{% url 'seguimiento' %}" class="nav-item nav-link">Seguimiento</a>
+        <a href="{% url 'listar_solicitudes_pago' %}" class="nav-item nav-link">Solicitudes</a>
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}
+
+
+{% block contenido %}
+
+<div class="container-xxl py-5 bg-dark hero-header mb-5" >
+    <div class="container my-5 py-5" >
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 text-center text-lg-start">
+                <h1 class="display-3 text-white animated slideInLeft">FERREMAS</h1>
+                <h2 class="text-white animated slideInLeft">Tienda de venta de herramientas</h2>
+
+                <p class="text-white animated slideInLeft mb-4 pb-2"></p>
+            </div>
+            <div class="col-lg-6 text-center text-lg-end">
+                <img class="img-fluid" src="{% static 'core/img/herramientas-para-reparar (1).png'%}" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Hero End -->
+
+{% for group in user.groups.all %}
+    {% if group.name == 'contador' %}
+
+<title>Generar Reporte de Ventas</title>
+    <style>
+        .container1 {
+            background-color: #A1D6E2; /* Color de fondo */
+            padding: 20px; /* Añade espacio alrededor del contenido */
+            margin-bottom: 20px; /* Espacio entre el contenedor y otros elementos */
+            border-radius: 10px; /* Bordes redondeados */
+        }
+
+        .formfec {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .formfec > * {
+            margin-right: 10px;
+        }
+
+        .botonfec[type="submit"] {
+            background-color: #1995AD;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #28aec9;
+        }
+
+        input[type="date"] {
+            border: 1px solid #A1D6E2;
+            border-radius: 20px;
+            padding: 8px;
+            font-size: 16px;
+        }
+    </style>
+
+
+    <div class="container1">
+        <h1>Generar Reporte de Ventas</h1>
+        <form class="formfec" action="{% url 'ReporteVentas' %}" method="GET">
+            <h4>Fecha Inicio:</h4>
+            <input type="date" id="fecha_inicio" name="fecha_inicio" required>
+            <h4>Fecha Final:</h4>
+            <input type="date" id="fecha_fin" name="fecha_fin" required>
+            <button class="botonfec" type="submit">Generar Reporte</button>
+        </form>
+    </div>
+
+{% endif %}
+{% endfor %}
+
+<!--  Barra de busqueda -->
+
+<style>
+    .search-form {
+        text-align: center;
+        margin-top: 50px; /* Ajusta según sea necesario */
+    }
+
+    .search-form input[type="text"] {
+        width: 600px; /* Ajusta el ancho del campo de búsqueda */
+        padding: 10px;
+        border: 1px solid #ccc; /* Cambia el color del borde */
+        border-radius: 5px; /* Agrega bordes redondeados */
+        outline: none; /* Quita el contorno al seleccionar */
+    }
+
+    .search-form button[type="submit"] {
+        padding: 10px 20px;
+        background-color: #A1D6E2; 
+        color: white; 
+        border: none;
+        border-radius: 5px; 
+        cursor: pointer;
+    }
+
+    .search-form button[type="submit"]:hover {
+        background-color: #bce6f0; 
+    }
+</style>
+
+<div class="search-form">
+    <form method="GET" action="{% url 'index' %}">
+        <input type="text" name="q" placeholder="Buscar productos..." size="80">
+        <button type="submit">Buscar</button>
+    </form>
+</div>
+
+
+
+<!--  final barra de busqueda -->
+
+<!-- prodiuctos populares-->
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Productos</h5>
+        </div>
+        <div class="row g-3">
+
+        {% for aux in listado %}
+
+            {% if aux.Stock > 0 %}
+            <style>
+                .small-card {
+                    max-width: 90%;
+                    margin: auto;
+                    padding: 0.5rem;
+                }
+                .team-item {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center; 
+                }
+                .image-container {
+                    width: 350px;
+                    height: 320x;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    margin-bottom: 1rem; 
+                }
+                .team-item img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            </style>
+            
+            <div class="col-lg-4 col-md-6 fadeInUp" data-wow-delay="0.1s">
+                <div class="team-item text-center rounded overflow-hidden small-card">
+                    <div class="image-container">
+                        {% if aux.imagen %}
+                        <img class="img-fluid" src="{{ aux.imagen.url }}" alt="Colorlib Template">
+                        {% else %}
+                        <img class="img-fluid" src="{% static 'core/img/id.jpg' %}" alt="">
+                        {% endif %}
+                    </div>
+                    <h5 class="mb-0">{{ aux.Nombre }}</h5>
+                    <h6>Marca: {{ aux.tipo }}</h6>
+                    <h6>Stock: {{ aux.Stock }}</h6>
+                    <h5>${{ aux.precio }}</h5>
+                    <div class="d-flex justify-content-center mt-3">
+                        {% for group in user.groups.all %}
+                            {% if group.name == 'vendedor' %}
+                        <a class="btn btn-square btn-primary mx-1" 
+                            onclick="deleteProducto({{ aux.id }})" style="width: 40px; height: 40px; border-radius: 50%;">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                        <a class="btn btn-square btn-primary mx-1" href="{% url 'update' aux.id %}"
+                            onclick="update-product({{ aux.id }})" style="width: 40px; height: 40px; border-radius: 50%;">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        <form action="{% url 'agregar_al_carrito' aux.id %}" method="POST" class="d-inline">
+                            {% csrf_token %}
+                            <input type="hidden" name="producto_id" value="{{ aux.id }}">
+                            <input type="hidden" name="items" value="1">
+                            <input type="hidden" name="nombre_producto" id="nombre_producto" value="{{ aux.Nombre }}">
+                            <input type="hidden" name="precio_producto" id="precio_producto" value="{{ aux.precio }}">
+                            <input type="hidden" name="imagen_producto" id="imagen_producto" value="{{ aux.imagen }}">
+                            {% if user.is_authenticated %}
+                            <button type="submit" style="cursor: pointer; width: 40px; height: 40px; border-radius: 50%;" class="btn btn-primary nav-item d-flex align-items-center justify-content-center mx-1">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                            {% else %}
+                            <a onclick="NoIniciado()" style="cursor: pointer; width: 40px; height: 40px; border-radius: 50%;" class="btn btn-primary d-flex align-items-center justify-content-center mx-1">
+                                <i class="fas fa-shopping-cart"></i>
+                            </a>
+                            {% endif %}
+                        </form>
+                        <style>
+                            .btn-circle {
+                                width: 40px !important;
+                                height: 40px !important;
+                                border-radius: 50% !important;
+                                padding: 0 !important;
+                            }
+                            .btn-circle i {
+                                line-height: 40px; /* Centrar verticalmente el icono */
+                            }
+                        </style>
+                        
+                        <button type="button" class="btn btn-primary btn-circle" onclick="openModal('{{ aux.Descripcion }}')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        
+                        
+                        <!-- The Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h5 style="color: #1995AD;" class="modal-title" id="modalTitle"></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <!-- Modal Body -->
+                                    <div class="modal-body" id="modalBody"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <script>
+                            function openModal(descripcion) {
+                                var myModal = new bootstrap.Modal(document.getElementById('myModal'), {
+                                    keyboard: false
+                                });
+                                document.getElementById('modalBody').innerHTML = descripcion;
+                                myModal.show();
+                            }
+                        </script>
+
+
+
+
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+        {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% include 'core/paginator.html' %}
+
+
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'core/base.html' %}in
+{% load static %}
+{% block nav %}
+<a href="{% url 'index' %}" class="nav-item nav-link">Inicio</a>
+{% for group in user.groups.all %}
+        {% if group.name == 'cliente' %}
+<a href="{% url 'historial' %}" class="nav-item nav-link active">Historial de compra</a>
+        {% endif %}
+    {% endfor %}
+
+    {% for group in user.groups.all %}
+        {% if group.name == 'vendedor' %}
+<a href="{% url 'add' %}" class="nav-item nav-link">Administracion</a>
+        {% endif %}
+    {% endfor %}
+{% if user.is_authenticated %}
+<a href="{% url 'Carrito' %}" class=" nav-item nav-link"><i class="fa fa-shopping-cart "></i></a>
+{% else %}
+<a onclick="NoIniciado()" class=" nav-item nav-link"><i class="fa fa-shopping-cart "></i></a>
+{% endif %}
+
+
+
+{% endblock %}
+
+{% block contenido %}
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Historial de compra</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        {% for historial in historiales %}
+        <h1>Código de compra: {{ historial.codigo }}</h1>
+        
+        {% for pedido in historial.compra.all %}
+        <div class="card mb-4 rounded-3 shadow-sm border-secondary flex-row-reverse">
+            <div class="card-body">
+
+                <h3 style="color: #1995AD;">Nombre: {{ pedido.producto.Nombre }}                    </h3>
+                <h3 style="color: #1995AD;">Marca: {{ pedido.producto.tipo }}                        </h3>
+                <h3 style="color: #1995AD;">Cantidad: {{ pedido.items }}                            </h3>
+                <h3 style="color: #1995AD;">Precio: {{ pedido.producto.precio }}                    </h3>
+                <h3 style="color: #1995AD;">Estado del pedido: {{ pedido.estado }}                  </h3>
+                <h3 style="color: #1995AD;">Cantidad pagada: {{ pedido.precio_total|floatformat:0 }}</h3>
+                <br>
+                <h3 style="color: #1995AD;">Fecha de compra: {{ pedido.fecha_compra|date }}         </h3>
+
+            </div>
+            <img class="img" style="width: 320px;" src="{{ pedido.producto.imagen.url }}" alt="Colorlib Template">
+        </div>
+        {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

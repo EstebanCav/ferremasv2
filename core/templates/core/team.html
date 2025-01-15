@@ -1,0 +1,101 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block nav %}
+<a href="{% url 'index' %}" class="nav-item nav-link ">Inicio</a>
+<a href="{% url 'team' %}" class="nav-item nav-link active">Productos</a>
+{% for group in user.groups.all %}
+        {% if group.name == 'cliente' %}
+<a href="{% url 'historial' %}" class="nav-item nav-link">Historial de compra</a>
+        {% endif %}
+    {% endfor %}
+{% for group in user.groups.all %}
+    {% if group.name == 'vendedor' %}
+<a href="{% url 'add' %}" class="nav-item nav-link">Administracion</a>
+    {% endif %}
+{% endfor %}
+{% if user.is_authenticated %}
+<a href="{% url 'Carrito' %}" class=" nav-item nav-link"><i class="fa fa-shopping-cart "></i></a>
+{% else %}
+<a onclick="NoIniciado()" class=" nav-item nav-link"><i class="fa fa-shopping-cart "></i></a>
+{% endif %}
+
+{% endblock %}
+{% block contenido %}
+
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Productos</h1>
+    </div>
+</div>
+<!-- Navbar & Hero End -->
+
+
+<!-- Team Start -->
+<div class="container-xxl pt-5 pb-3">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">PRODUCTOS</h5>
+            <h1 class="mb-5">NUESTROS PRODUCTOS</h1>
+            
+        </div>
+        
+        
+        <div class="row g-3">
+
+            {% for aux in listado %}
+
+            {% if aux.Stock > 0 %}
+
+            <div class="col-lg-4 col-md-6 fadeInUp" data-wow-delay="0.1s">
+                <div class="team-item text-center rounded overflow-hidden">
+                    <div class="rounded-circle overflow-hidden m-4">
+                        {% if aux.imagen %}
+                        <img class="img-fluid" src="{{ aux.imagen.url }}" alt="Colorlib Template">
+                        {% else %}
+                        <img class="img-fluid" src="{% static 'core/img/id.jpg '%}" alt="">
+                        {% endif %}
+                    </div>
+                    <h5 class="mb-0">{{ aux.Nombre }}</h5>
+                    <p>Stock: {{ aux.Stock }}</p>
+                    <small>${{ aux.precio }}</small>
+                    <!--<a href="" onclick="eliminarProducto({{ aux.id }})" "{% url 'delete' aux.id %}","{% url 'update' aux.id %}"-->
+                    <div class="d-flex justify-content-center mt-3">
+                        {% for group in user.groups.all %}
+                            {% if group.name == 'vendedor' %}
+                        <a class="btn btn-square btn-primary mx-3" 
+                            onclick="deleteProducto({{ aux.id }})"><i class="fas fa-trash"></i></a>
+                        <a class="btn btn-square btn-primary mx-3" href="{% url 'update' aux.id %}"
+                            onclick="update-product({{ aux.id }})"><i class="fas fa-pencil-alt"></i></a>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        <form action="{% url 'agregar_al_carrito' aux.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="producto_id" value="{{ aux.id }}">
+                            <input type="hidden" name="items" value="1">
+                            <input type="hidden" name="nombre_producto" id="nombre_producto" value="{{ aux.Nombre }}">
+                            <input type="hidden" name="precio_producto" id="precio_producto" value="{{ aux.precio }}">
+                            <input type="hidden" name="imagen_producto" id="imagen_producto" value="{{ aux.imagen }}">
+                            {% if user.is_authenticated %}
+                            <input type="submit" style="cursor: pointer;" value="carrito" class="btn btn-primary nav-item ">
+                            {% else %}
+                            <a onclick="NoIniciado()" type="submit" style="cursor: pointer;" value="Carrito" class="btn btn-primary">Carrito </a>
+                            {% endif %}
+                            <a href="{% url 'team' %}" type="submit" style="cursor: pointer;"
+                                class="btn btn-primary">Ver mas</a>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% include 'core/paginator.html' %}
+        </div>
+    </div>
+
+</div>
+<!-- Team End -->
+
+{% endblock %}

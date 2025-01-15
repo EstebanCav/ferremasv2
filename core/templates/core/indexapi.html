@@ -1,0 +1,269 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block nav %}
+<a href="{% url 'index' %}" class="nav-item nav-link active">Inicio</a>
+<a href="{% url 'team' %}" class="nav-item nav-link">Productos</a>
+{% for group in user.groups.all %}
+    {% if group.name == 'vendedor' %}
+<a href="{% url 'add' %}" class="nav-item nav-link">Administracion</a>
+    {% endif %}
+{% endfor %}
+{% if user.is_authenticated %}
+<a href="{% url 'Carrito' %}" class=" nav-item nav-link"><i class="fa fa-shopping-cart "></i></a>
+{% else %}
+<a onclick="NoIniciado()" class=" nav-item nav-link"><i class="fa fa-shopping-cart "></i></a>
+{% endif %}
+
+{% endblock %}
+
+{% block contenido %}
+
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container my-5 py-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6 text-center text-lg-start">
+                <h1 class="display-3 text-white animated slideInLeft">PerriPapitos</h1>
+                <h2 class="text-white animated slideInLeft">Tienda de mascotas</h2>
+
+                <p class="text-white animated slideInLeft mb-4 pb-2"></p>
+                <a href=" {% url 'team' %} " class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Nuestros
+                    productos</a>
+            </div>
+            <div class="col-lg-6 text-center text-lg-end overflow-hidden">
+                <img class="img-fluid" src="{% static 'core/img/hueso_icon.png '%}" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Hero End -->
+
+
+
+<!-- About Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-6 text-start">
+                        <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.1s"
+                            src="{% static 'core/img/perrofeliz1.jpg '%}">
+                    </div>
+                    <div class="col-6 text-start">
+                        <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.3s"
+                            src="{% static 'core/img/perrofeliz2.png '%}" style="margin-top: 25%;">
+                    </div>
+                    <div class="col-6 text-end">
+                        <img class="img-fluid rounded w-75 wow zoomIn" data-wow-delay="0.5s"
+                            src="{% static 'core/img/perrofeliz3.jpg '%}">
+                    </div>
+                    <div class="col-6 text-end">
+                        <img class="img-fluid rounded w-100 wow zoomIn" data-wow-delay="0.7s"
+                            src="{% static 'core/img/perrofeliz4.jpg '%}">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h5 class="section-title ff-secondary text-start text-primary fw-normal">Perros</h5>
+                <h1 class="mb-4">Bienvenido a <i class="fa fa-paw me-3 text-primary me-2"></i>PerriPapitos</h1>
+                <p class="mb-4">PerriPapitos es una fundacion sin fines de lucro para ayudar a los
+                    perritos que viven en la calle o que han sido abandonados
+                    por sus dueños y no tienen donde comer ni dormir ni un hogar que les otorgue el cariño que merecen.
+                </p>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center border-start border-5 border-primary px-3">
+                            <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">10</h1>
+                            <div class="ps-4">
+                                <p class="mb-0">Total de</p>
+                                <h6 class="text-uppercase mb-0">Perri-colaboradores</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center border-start border-5 border-primary px-3">
+                            <h1 class="flex-shrink-0 display-5 text-primary mb-0" data-toggle="counter-up">50</h1>
+                            <div class="ps-4">
+                                <p class="mb-0">Total de</p>
+                                <h6 class="text-uppercase mb-0">PerriPapitos ayudados</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About End -->
+
+<!-- prodiuctos populares-->
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Productos</h5>
+            <h1 class="mb-5">PerriProductos Populares</h1>
+        </div>
+        <div class="row g-3">
+            
+            <h6>UF:{{ monedas.uf.valor }} - DOLAR: {{ monedas.dolar.valor }} - EURO:{{ monedas.euro.valor }} </h6>
+            {% for aux in listado %}
+
+            {% if aux.Stock > 0 %}
+            <h6> {{ aux.tipo.descripcion }} </h6>
+
+            <div class="col-lg-4 col-md-6 fadeInUp" data-wow-delay="0.1s">
+                <div class="team-item text-center rounded overflow-hidden">
+                    <div class="rounded-circle overflow-hidden m-4">
+                        {% if aux.imagen %}
+                        <img class="img-fluid" src="{{ aux.imagen }}" alt="Colorlib Template">
+                        {% else %}
+                        <img class="img-fluid" src="{% static 'core/img/id.jpg '%}" alt="">
+                        {% endif %}
+                    </div>
+                    <h5 class="mb-0">{{ aux.Nombre }}</h5>
+                    <p>Stock: {{ aux.Stock }}</p>
+                    <small>${{ aux.precio }}</small>
+                    <!--<a href="" onclick="eliminarProducto({{ aux.id }})" "{% url 'delete' aux.id %}","{% url 'update' aux.id %}"-->
+                    <div class="d-flex justify-content-center mt-3">
+                        {% if user.is_authenticated and user.username == 'admin' %}
+                        <a class="btn btn-square btn-primary mx-3" 
+                            onclick="deleteProducto({{ aux.id }})"><i class="fas fa-trash"></i></a>
+                        <a class="btn btn-square btn-primary mx-3" href="{% url 'update' aux.id %}"
+                            onclick="update-product({{ aux.id }})"><i class="fas fa-pencil-alt"></i></a>
+                        {% endif %}
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="nombre_producto" id="nombre_producto" value="{{ aux.Nombre }}">
+                            <input type="hidden" name="precio_producto" id="precio_producto" value="{{ aux.precio }}">
+                            <input type="hidden" name="imagen_producto" id="imagen_producto" value="{{ aux.imagen }}">
+                            {% if user.is_authenticated %}
+                            <input type="submit" style="cursor: pointer;" value="Carrito" class="btn btn-primary">
+                            {% else %}
+                            <a onclick="NoIniciado()" type="submit" style="cursor: pointer;" value="Carrito"
+                                class="btn btn-primary">CARRITO</a>
+                            {% endif %}
+                            <a href="{% url 'team' %}" type="submit" style="cursor: pointer;"
+                                class="btn btn-primary">Ver mas</a>
+
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% for aux in personajes %}
+            <p> Nombre:{{ aux.name }}
+                raza:{{aux.species}}
+            <img src="{{ aux.image }}" alt="">
+            </p>
+            
+
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+
+<!-- final productos populares-->
+{% if user.is_authenticated %}
+<div class="row g-4">
+    <div class="col-md-6 wow fadeIn" data-wow-delay="0.1s">
+        <iframe class="position-relative rounded w-100 h-100"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd"
+            frameborder="0" style="min-height: 350px; border:0;" allowfullscreen="" aria-hidden="false"
+            tabindex="0"></iframe>
+    </div>
+    <div class="col-md-6">
+        <div class="wow fadeInUp" data-wow-delay="0.2s">
+            <form>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="subject" placeholder="Subject">
+                            <label for="subject">Codigo de seguimiento</label>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <button class="btn btn-primary w-100 py-3" type="submit">Seguir</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+<!-- Testimonial Start -->
+<div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="text-center">
+            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Comentarios</h5>
+            <h1 class="mb-5">ComentariPapitos!!!</h1>
+        </div>
+        <div class="owl-carousel testimonial-carousel">
+            <div class="testimonial-item bg-transparent border rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                <p>HOLA AMIGOS, La bandana que le compre a mi perro le queda entero ficha, tambien la identificacion que
+                    le compre, excelente servicio</p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded-circle" src="{% static 'core/img/testimonial-1.jpg '%}"
+                        style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Manuela Soto</h5>
+
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-item bg-transparent border rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                <p>Le compre la correa a mi perro, al final la termine ocupando mas yo, una lastima la verdad, porque es
+                    de muy buena calidad, ya falta que me compre una bandana para mi tambien.</p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded-circle" src="{% static 'core/img/testimonial-2.jpg '%}"
+                        style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Johan Espinoza</h5>
+                        <small></small>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-item bg-transparent border rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                <p>Finalmente puedo ir a comprar con mi perro gracias a la Correa que le compre en PerriPapitos, sigan
+                    ayudando a esta pagina por favor!!!</p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded-circle" src="{% static 'core/img/testimonial-3.jpg '%}"
+                        style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Ignacio Martin</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-item bg-transparent border rounded p-4">
+                <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                <p>Pensaba que no iba a necesitar comprarle una correa a mi perro, hasta que se la compre, muchas
+                    gracias!</p>
+                <div class="d-flex align-items-center">
+                    <img class="img-fluid flex-shrink-0 rounded-circle" src="{% static 'core/img/testimonial-4.jpg '%}"
+                        style="width: 50px; height: 50px;">
+                    <div class="ps-3">
+                        <h5 class="mb-1">Ignacia Rifo</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Testimonial End -->
+
+
+{% endblock %}
