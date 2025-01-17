@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 django==4.2
 django-admin-interface
 django-crispy-forms
@@ -15,21 +15,4 @@ pandas
 openpyxl
 psycopg2-binary
 python-dotenv
-=======
-django==4.2
-django-admin-interface
-django-crispy-forms
-dj-database-url==0.5.0
-pillow
-djangorestframework
-requests
-django-paypal
-paypal-checkout-serversdk
-pymysql
-django-jazzmin
-django-extensions
-pandas
-openpyxl
-psycopg2-binary
-python-dotenv
->>>>>>> 7337a6a4760bbed13ad3b5f103e5c213ad06b5df
+
