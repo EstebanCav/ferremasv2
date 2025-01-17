@@ -1,0 +1,48 @@
+
+{% extends 'core/base.html' %}
+{% load static %}
+{% block contenido %}
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Pagar</h1>
+    </div>
+  </div>
+<div class="payment-total">
+
+    
+    <h1 style="color: #1995AD;">Pagar</h1>
+    <ul>
+        {% for item in listaCarrito %}
+        <h3 style="color: #1995AD;">{{ item.producto.Nombre }} - {{ item.items }} x {{ item.producto.precio }}</h3>
+        {% endfor %}
+    </ul>
+    <h3 style="color: #1995AD;">Precio Total: {{ precio_total }}</h3>
+    <h3 style="color: #1995AD;">Valor en USD: {{ valor }}</h3>
+
+    <div id="estado">
+        <h4>Esperando autorización del pago...</h4>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block js %}
+<script>
+    // Función para verificar el estado de autorización
+    function verificarAutorizacion() {
+        fetch("{% url 'verificar_autorizacion' solicitud_pago.id %}")
+            .then(response => response.json())
+            .then(data => {
+                if (data.autorizado) {
+                    document.getElementById("estado").innerHTML = "La compra ha sido autorizada. <a href='{% url 'PagarCarrito' %}'><button class='btn btn-primary'>Completar Compra</button></a>";
+
+                } else {
+                    document.getElementById("estado").innerHTML = "Esperando autorización del pago...";
+                }
+            });
+    }
+    
+    setInterval(verificarAutorizacion, 5000);
+    </script>
+
+{% endblock %}

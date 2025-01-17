@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block nav %}
+<a href="{% url 'index' %}" class="nav-item nav-link ">Inicio</a>
+{% for group in user.groups.all %}
+{% if group.name == 'vendedor' %}
+<a href="{% url 'add' %}" class="nav-item nav-link">Administracion</a>
+<a href="{% url 'listar_solicitudes_pago' %}" class="nav-item nav-link">Solicitudes</a>
+{% endif %}
+{% endfor %}
+{% if user.is_authenticated %}
+<a href="{% url 'Carrito' %}" class=" nav-item nav-link active"><i class="fa fa-shopping-cart "></i></a>
+{% else %}
+<a onclick="NoIniciado()" class=" nav-item nav-link"><i class="fa fa-shopping-cart "></i></a>
+{% endif %}
+{% endblock %}
+
+{% block contenido %}
+
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Autorizar Pago</h1>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="card">
+        <div class="card-body text-center">
+            <h2 style="color: #1995AD;">Autorizar</h2>
+
+            <h1 style="color: #1995AD;">Usuario: {{ solicitud.usuario.username }}</h1>
+            <h1 style="color: #1995AD;">Precio Total: {{ solicitud.precio_total }}</h1>
+            <h1 style="color: #1995AD;">Valor Total en USD: {{ solicitud.valor_total }}</h1>
+
+
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Autorizar</button>
+                <a href="{% url 'listar_solicitudes_pago' %}" class="btn btn-primary">Cancelar</a>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

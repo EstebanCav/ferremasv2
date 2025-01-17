@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block nav %}
+<a href="{% url 'index' %}" class="nav-item nav-link active">Inicio</a>
+<a href="{% url 'team' %}" class="nav-item nav-link">Productos</a>
+
+    {% for group in user.groups.all %}
+        {% if group.name == 'vendedor' %}
+<a href="{% url 'add' %}" class="nav-item nav-link">Agregar Productos</a>
+        {% endif %}
+    {% endfor %}
+{% if user.is_authenticated %}
+<a href="{% url 'Carrito' %}" class=" nav-item nav-link"><i class="fa fa-shopping-cart "></i></a>
+{% else %}
+<a onclick="NoIniciado()" class=" nav-item nav-link"><i class="fa fa-shopping-cart "></i></a>
+{% endif %}
+
+{% endblock %}
+
+{% block contenido %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enviar</button>
+</form>
+
+{% endblock %}

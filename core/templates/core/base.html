@@ -1,0 +1,201 @@
+{% load static %}
+
+<!--{% static 'core/' %}-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>FERREMAS</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1995AD !important;
+            padding: 20px;
+        }
+
+        .payment-total {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-total h2 {
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .payment-total label {
+            display: block;
+            margin-bottom: 10px;
+            color: #888;
+            font-weight: bold;
+        }
+
+        .payment-total input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+        }
+
+        .payment-total input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .payment-total input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .container-xxl{
+            max-width: 1500px !important;
+
+        }
+    </style>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="{% static 'core/lib/animate/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'core/lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'core/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'core/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'core/css/style.css' %}" rel="stylesheet">
+    
+    {% block css %}
+
+    {% endblock %}
+</head>
+
+<body>
+    <div class="container-xxl bg-white p-0">
+        <!-- Spinner Start -->
+        <div id="spinner"
+            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Navbar & Hero Start -->
+        <div class="container-xxl position-relative p-0">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+                <a href="{% url 'index' %}" class="navbar-brand p-0">
+                    <h1 class="text-primary m-0"><img src="{% static 'core/img/logo.png'%}" style="margin: 3px;">FERREMAS</h1>
+
+                    <!-- <img src="{% static 'core/img/logo.png" alt="Logo"> -->
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-0 pe-4">
+
+
+                        {% block nav %}
+
+
+                        {% endblock %}
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'perfil' %}" class=" nav-item nav-link"><i class="fa fa-user"></i> {{ user.username }}</a>
+
+                        {% endif %}
+                    </div> 
+                    {% if user.is_authenticated %}
+
+                    <a  href="{% url 'salir' %}"> <h6 class="nav-item nav-link active" style="font-size: medium; margin-top: 8px;" >CERRAR SESION</h6></a>
+                    {% else %}
+                    <a  href="{% url 'login' %}"><h6 class="nav-item nav-link active" style="font-size: medium; margin-top: 8px;" >INICIAR SESION</h6></a>
+                    {% endif %}
+
+
+
+            </nav>
+
+
+        </div>
+        <!-- Navbar & Hero End -->
+
+        <!-- Inicio Contenido-->
+        {% block contenido %}
+
+        {% endblock %}
+        <!--Fin contenido-->
+        <!-- Footer Start -->
+        <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-lg-4 col-md-6">
+                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Contactanos</h4>
+                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Av. Concha y Toro 2893, Puente Alto,
+                            Región Metropolitana</p>
+                        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+562 91746385</p>
+                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>PerriPapitos@Gmail.com</p>
+
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Horario</h4>
+                        <h5 class="text-light fw-normal">Lunes - Viernes</h5>
+                        <p>09AM - 09PM</p>
+                        <h5 class="text-light fw-normal">Sabados</h5>
+                        <p>10AM - 07PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'core/lib/wow/wow.min.js' %}"></script>
+    <script src="{% static 'core/lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'core/lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'core/lib/counterup/counterup.min.js' %}"></script>
+    <script src="{% static 'core/lib/owlcarousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'core/lib/tempusdominus/js/moment.min.js' %}"></script>
+    <script src="{% static 'core/lib/tempusdominus/js/moment-timezone.min.js' %}"></script>
+    <script src="{% static 'core/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Template Javascript -->
+    <script src="{% static 'core/js/main.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'core/js/mensaje.js' %}"></script>
+
+    {% block js %}
+
+    {% endblock %}
+</body>
+
+</html>

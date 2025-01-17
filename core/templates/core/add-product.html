@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block nav %}
+<!-- Tu código de navegación aquí -->
+{% endblock %}
+
+{% block contenido %}
+
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Administracion</h1>
+    </div>
+</div>
+<h3>Agregar Producto</h3>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary mt-3">Guardar</button>
+</form>
+
+{% endblock %}
+
+{% block js %}
+{% endblock %}

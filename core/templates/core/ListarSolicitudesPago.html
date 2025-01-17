@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block contenido %}
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Solicitudes de Pago Pendientes</h1>
+    </div>
+</div>
+
+<style>
+.solicitudes-list {
+    list-style: none;
+    padding: 0;
+}
+
+.solicitud-item {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.solicitud-info {
+    flex: 1;
+}
+
+.solicitud-buttons {
+    margin-left: 20px;
+}
+</style>
+
+{% if mensaje %}
+    <div class="alert alert-success" role="alert">
+        {{ mensaje }}
+    </div>
+{% endif %}
+
+<ul class="solicitudes-list">
+    {% for solicitud in solicitudes %}
+    <li class="solicitud-item">
+        <div class="solicitud-info">
+            <h3 style="color: #1995AD;">Usuario: {{ solicitud.usuario.username }}</h3>
+            <h3 style="color: #1995AD;">Precio Total: {{ solicitud.precio_total }}</h3>
+            <h3 style="color: #1995AD;">Valor en USD: {{ solicitud.valor_total }}</h3>
+            <h3 style="color: #1995AD;">Cantidad Total de Productos: {{ solicitud.items }}</h3>
+            <h4 style="color: #1995AD;">Productos:</h4>
+            <ul>
+                {% for producto, data in solicitud.productos.items %}
+                    <h5 style="color: #1995AD;">{{ producto }} ({{ data.tipo }}): {{ data.cantidad }}</h5>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="solicitud-buttons">
+            <a href="{% url 'AutorizarPago' solicitud.id %}" class="btn btn-primary">Autorizar</a>
+            <a href="{% url 'RechazarPago' solicitud.id %}" class="btn btn-danger">Rechazar</a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

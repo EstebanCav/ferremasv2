@@ -1,0 +1,102 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block nav %}
+<a href="{% url 'index' %}" class="nav-item nav-link ">Inicio</a>
+<a href="{% url 'team' %}" class="nav-item nav-link ">Productos</a>
+{% for group in user.groups.all %}
+    {% if group.name == 'cliente' %}
+<a href="{% url 'historial' %}" class="nav-item nav-link">Historial de compra</a>
+    {% endif %}
+{% endfor %}
+{% for group in user.groups.all %}
+    {% if group.name == 'vendedor' %}
+<a href="{% url 'add' %}" class="nav-item nav-link active">Administracion</a>
+    {% endif %}
+{% endfor %}
+{% if user.is_authenticated %}
+<a href="{% url 'Carrito' %}" class=" nav-item nav-link"><i class="fa fa-shopping-cart "></i></a>
+{% else %}
+<a onclick="NoIniciado()" class=" nav-item nav-link"><i class="fa fa-shopping-cart "></i></a>
+{% endif %}
+{% endblock %}
+
+
+{% block contenido %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Seguimiento de pedido</h1>
+    </div>
+  </div>
+
+{% if user.is_authenticated or user.username == 'bodeguero' %}
+<hr class="my-4">
+<section class="h-135 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-10 col-xl-8">
+                <div class="card" style="border-radius: 15px;">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0" >Pedidos</p>
+                        </div>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="filtroUsuarioDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Filtrar por usuario
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="filtroUsuarioDropdown">
+                                <a class="dropdown-item {% if not nombre_usuario %}active{% endif %}" href="{% url 'seguimiento' %}">Todos</a>
+                                {% for usuario in usuarios %}
+                                    <a class="dropdown-item {% if nombre_usuario == usuario.username %}active{% endif %}" href="?usuario={{ usuario.username }}">{{ usuario.username }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% for pedido in pedidos %}
+                            <div class="card shadow-0 border mb-4">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <p>Usuario: {{ pedido.usuario.username }}</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p>Código de compra: {{ pedido.historialcompra_set.first.codigo }}</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p>Productos:</p>
+                                            <p> {{ pedido.producto.Nombre }}</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p>Comprador: {{ pedido.usuario.username }}</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <p>Estado: {{ pedido.estado }}</p>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <form method="POST" action="{% url 'cambiar_estado_pedido' pedido.pk %}">
+                                                {% csrf_token %}
+                                                <label for="nuevo_estado">Estado:</label>
+                                                <select name="nuevo_estado" id="nuevo_estado">
+                                                    <option value="validacion" {% if pedido.estado == 'validacion' %}selected{% endif %}>Validación</option>
+                                                    <option value="preparacion" {% if pedido.estado == 'preparacion' %}selected{% endif %}>Preparación</option>
+                                                    <option value="reparto" {% if pedido.estado == 'reparto' %}selected{% endif %}>Reparto</option>
+                                                    <option value="entregado" {% if pedido.estado == 'entregado' %}selected{% endif %}>Entregado</option>
+                                                    <option value="cancelado" {% if pedido.estado == 'cancelado' %}selected{% endif %}>Cancelado</option>
+                                                </select>
+                                                <br>
+                                                <input type="submit" value="Guardar" class="btn btn-primary mt-3">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <hr class="mb-4" style="background-color: #ff8400; opacity: 1;">
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% endblock %}

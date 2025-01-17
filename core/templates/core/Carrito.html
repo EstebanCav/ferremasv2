@@ -1,0 +1,128 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block nav %}
+<a href="{% url 'index' %}" class="nav-item nav-link ">Inicio</a>
+{% for group in user.groups.all %}
+        {% if group.name == 'cliente' %}
+<a href="{% url 'historial' %}" class="nav-item nav-link">Historial de compra</a>
+        {% endif %}
+    {% endfor %}
+{% for group in user.groups.all %}
+    {% if group.name == 'vendedor' %}
+<a href="{% url 'add' %}" class="nav-item nav-link">Administracion</a>
+    {% endif %}
+{% endfor %}
+{% if user.is_authenticated %}
+<a href="{% url 'Carrito' %}" class=" nav-item nav-link active"><i class="fa fa-shopping-cart "></i></a>
+{% else %}
+<a onclick="NoIniciado()" class=" nav-item nav-link"><i class="fa fa-shopping-cart "></i></a>
+{% endif %}
+{% endblock %}
+
+
+{% block contenido %}
+
+
+<div class="container-xxl py-5 bg-dark hero-header mb-5">
+    <div class="container text-center my-5 pt-5 pb-4">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Carrito</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row g-3">
+{% for item in items %}
+<style>
+    .small-card {
+        max-width: 90%;
+        margin: auto;
+        padding: 0.5rem;
+    }
+    .team-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra horizontalmente los elementos */
+    }
+    .image-container {
+        width: 320px;
+        height: 350px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-bottom: 1rem; /* Ajuste de margen inferior */
+    }
+    .team-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .btn-circle {
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50% !important;
+    }
+</style>
+
+<div class="col-lg-4 col-md-6 fadeInUp" data-wow-delay="0.1s">
+    <div class="team-item text-center rounded overflow-hidden small-card">
+        <div class="image-container">
+            {% if item.producto.imagen %}
+            <img class="img-fluid" src="{{ item.producto.imagen.url }}" alt="Colorlib Template">
+            {% else %}
+            <img class="img-fluid" src="{% static 'core/img/id.jpg' %}" alt="">
+            {% endif %}
+        </div>
+        <h5 class="mb-0">{{ item.producto.Nombre }}</h5>
+        <h5>Precio por unidad: ${{ item.producto.precio }}</h5>
+        <h5>Precio Total: ${{ item.precio_total }}</h5>
+
+        <form method="POST" action="{% url 'actualizar_carrito' %}" class="d-flex align-items-center justify-content-center">
+            {% csrf_token %}
+            <input type="hidden" name="item_id" value="{{ item.id }}">
+            <div class="form-group mb-0">
+                <label for="cantidad" class="sr-only">Cantidad:</label>
+                <input type="number" name="cantidad" id="cantidad" min="1" value="{{ item.items }}" class="form-control form-control-sm" style="width: 70px;">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm ms-2 d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; border-radius: 50%;">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
+        </form>
+        
+        <div class="d-flex justify-content-center mt-3">
+            <a onclick="eliminarCarro({{ item.id }})" class="btn btn-primary btn-circle">
+                <i class="fas fa-trash"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+{% empty %}
+    <div class="col-lg-12 text-center">
+        <p>No se encontraron elementos en el carrito.</p>
+    </div>
+{% endfor %}
+{% include 'core/paginator.html' %}
+</div>
+</div>
+<br>
+<div class="col-lg-6">
+    <div class="pagar-item">
+        <h3>Total en CLP: ${{ precio_total }} |  Total en USD: ${{ precio_total_usd }}</h3>
+        
+
+
+        
+        {% if items %}
+        <form method="POST" action=""  ><a href=" {% url 'pagar' %} " class="btn btn-primary py-sm-3 px-sm-5 me-3">PAGAR</a></form>
+        {% else %}
+        <form method="POST" action=""  ><a onclick="NoCarrito()" class="btn btn-primary py-sm-3 px-sm-5 me-3">PAGAR</a></form>
+
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Completar Compra</title>
+</head>
+<body>
+    <h1>Completar Compra</h1>
+    <p>Usuario: {{ solicitud.usuario.username }}</p>
+    <p>Precio Total: {{ solicitud.precio_total }}</p>
+    <p>Valor Total en USD: {{ solicitud.valor_total }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Completar Compra</button>
+    </form>
+</body>
+</html>
+
+

@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block contenido %}
+<div class="payment-total">
+    <h2>!!!COMPRA FINALIZADA¡¡¡</h2>
+    <div class="d-flex justify-content-center">
+    <i style="font-size: 150px; color: rgb(255, 162, 0);" class="fas fa-thumbs-up"></i>
+    </div>
+    <p></p>
+    <p></p>
+
+    <h3>
+        Gracias por tu compra, se enviara un correo con todos los datos de envio
+    </h3>
+
+    <form method="POST" action="{% url 'Carrito' %}">
+        {% csrf_token %}
+
+
+        <a href="{% url 'index' %}" class="btn btn-primary"> Finalizar compra</a>
+    </form>
+</div>
+{% endblock %}
