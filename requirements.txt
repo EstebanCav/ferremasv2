@@ -13,3 +13,4 @@ django-extensions
 pandas
 openpyxl
 psycopg2-binary
+python-dotenv
