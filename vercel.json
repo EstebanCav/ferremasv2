@@ -1,10 +1,11 @@
 {
-    "builds":[{
-        "src": "pepo/wsgi.py",
-        "use": "@vercel/python",
-        "config": {"maxLambdaSize": "50mb", "runtime": "python3.9" }
-    }],
-    "routes":[
+    "builds" : [
+        {
+            "src": "pepo/wsgi.py",
+            "use": "@vercel/python"
+        }
+    ],
+    "routes": [
         {
             "src": "/(.*)",
             "dest": "pepo/wsgi.py"
