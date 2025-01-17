@@ -1,16 +1,15 @@
-django == 4.2
+django==4.2
 django-admin-interface
 django-crispy-forms
 dj-database-url==0.5.0
 pillow
-django-rest-framework
+djangorestframework
 requests
 django-paypal
 paypal-checkout-serversdk
 pymysql
-mysqlclient
 django-jazzmin
 django-extensions
 pandas
 openpyxl
-psycopg2
+psycopg2-binary

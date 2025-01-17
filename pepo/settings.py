@@ -14,9 +14,6 @@ from pathlib import Path,os
 import os
 from dotenv import load_dotenv
 import dj_database_url
-import pymysql
-pymysql.install_as_MySQLdb()
-
 
 load_dotenv()
 
@@ -33,7 +30,7 @@ SECRET_KEY = 'django-insecure-6-^%dxw1&z3&u-l%y(3@@_7yw*67njo-uy+rmjzw=i7o4z3rag
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = []
 
 #'admin_interface',
 
@@ -99,33 +96,10 @@ DATABASES = {
         ssl_require=True   # Forzar conexiones seguras
     )
 }
-"""
-DATABASES= {
-    'default': {
-        'ENGINE':'django.db.backends.mysql',
-        'NAME':'perripapitos',
-        'HOST':'localhost',
-        'PORT':'3306',
-        'USER':'root',
-        'PASSWORD':'',
-    }
-}
-"""
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': '127.0.0.1:1521/xe',
-        'USER': 'FERREMAS1',
-        'PASSWORD': 'MDY3131.practica_6',
-        'TEST': {
-            'USER': 'default_test',
-            'TBLSPACE': 'default_test_tbls',
-            'TBLSPACE_TMP': 'default_test_tbls_tmp',
-        },
-    },
-}
-"""
+# Configuración para PyMySQL (si usas MySQL/MariaDB)
+import pymysql
+pymysql.install_as_MySQLdb()
+
 #python manage.py makemigrations
 #python manage.py migrate
 
