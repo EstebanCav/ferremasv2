@@ -11,13 +11,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
-import environ
 from pathlib import Path,os
-from pathlib import Path
+from decouple import Config, Csv
 
-env = environ.Env()
+config = Config(".env")
 
-environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,12 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY =("django-insecure-6-^%dxw1&z3&u-l%y(3@@_7yw*67njo-uy+rmjzw=i7o4z3rag")
+SECRET_KEY = 'django-insecure-6-^%dxw1&z3&u-l%y(3@@_7yw*67njo-uy+rmjzw=i7o4z3rag'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*', '.vercel.app']
+ALLOWED_HOSTS = ['.vercel.app',]
 
 
 #'admin_interface',
@@ -95,18 +93,15 @@ WSGI_APPLICATION = 'pepo.wsgi.app'
 
 DATABASES = {
     'default': {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "postgres",
-        "USER": "postgres",
-        "PASSWORD": 'Y5Ur7De9kl1',  # Usando la variable de entorno
-        "HOST": 'db.bvmnvvqvxuynyabzomnp.supabase.co',          # Usando la variable de entorno
-        "PORT": "5432",
-        "OPTIONS": {
-            "sslmode": "verify-full",
-            "sslrootcert": os.path.join(BASE_DIR, 'prod-ca-2021.crt'),
-        }
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres.phfwfncgypqrlplqyqaa',
+        'PASSWORD': 'Y5Ur7De9kl1',
+        'HOST': 'aws-0-us-west-1.pooler.supabase.com',
+        'PORT': '6543',
     }
 }
+
 
 # Configuración para PyMySQL (si usas MySQL/MariaDB)
 import pymysql
