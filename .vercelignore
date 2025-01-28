@@ -1,0 +1,37 @@
+# Ignorar el directorio de dependencias
+node_modules/
+
+# Ignorar los archivos de entorno, que pueden contener variables privadas
+.env
+.env.*  # para otros archivos de entorno
+
+# Ignorar directorios y archivos de logs
+*.log
+
+# Ignorar archivos temporales del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Ignorar configuraciones locales de editores de código
+.vscode/
+.idea/
+
+# Ignorar directorios de archivos estáticos que se gestionan externamente
+static/
+
+# Ignorar archivos de prueba y otros archivos innecesarios
+test/
+tests/
+
+# Ignorar archivos de caché generados por el framework
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignorar directorios específicos de desarrollo local
+docker/
+.env.local
+
+# Ignorar cualquier otro archivo que no sea relevante para el despliegue
+*.bak
+*.swp
