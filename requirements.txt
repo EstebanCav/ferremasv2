@@ -18,3 +18,5 @@ django-environ==0.10.0
 # Elimina python-decouple si no lo usas:
 # python-decouple==3.8
 gunicorn
+whitenoise
+cloudinary
