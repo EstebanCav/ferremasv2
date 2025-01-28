@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 import environ
+import cloudinary_storage
 from pathlib import Path,os
-from pathlib import Path
+
+
 
 env = environ.Env()
 
@@ -34,6 +36,8 @@ DEBUG = True
 ALLOWED_HOSTS = ['*', '.vercel.app']
 
 
+
+
 #'admin_interface',
 
 
@@ -52,6 +56,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_framework',
     'paypalcheckoutsdk',
+    'cloudinary',
+    'cloudinary_storage'
 ]
 
 X_FRAME_OPTIONS='SAMEORIGIN'
@@ -174,3 +180,11 @@ EMAIL_POST = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER ='guiasestebanhc@gmail.com'
 EMAIL_HOST_PASSWORD ='dtqx lkbx djrp yjiw'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'du579pmpu', 
+    'API_KEY': '833818875391342', 
+    'API_SECRET': 'bQn2EhHuweFM95eyTzLbsqcuBDE'  # Recuerda nunca compartir tus claves de API
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

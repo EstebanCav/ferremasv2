@@ -23,7 +23,7 @@ class Producto(models.Model):
     Descripcion = models.CharField(max_length=250)
     tipo = models.ForeignKey(TipoProducto, on_delete=models.CASCADE)
     Fecha_creacion = models.DateField()
-    imagen = models.ImageField(null=True, blank=True)
+    imagen = models.ImageField(upload_to='blog-post-image')
     update_at = models.DateField(auto_now=True)
 
     def __str__(self):
