@@ -74,7 +74,6 @@ python-decouple==3.8
 python-dotenv==1.0.0
 python-slugify==8.0.4
 pytz==2024.1
-pywin32==308
 pyzmq==26.2.0
 referencing==0.36.2
 requests==2.31.0
