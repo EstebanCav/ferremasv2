@@ -1,20 +1,18 @@
-django==4.2
-django-crispy-forms==1.14.0
-dj-database-url==0.5.0
-pillow==10.0.1
-djangorestframework==3.14.0
-requests==2.31.0
-django-paypal==1.0.0
-paypal-checkout-serversdk==1.0.0
-pymysql==1.0.3
-django-jazzmin==3.0.1
+django
+django-crispy-forms
+dj-database-url
+djangorestframework
+requests
+django-paypal
+paypal-checkout-serversdk
+pymysql
+django-jazzmin
 # Si decides quedarte solo con Jazzmin o Admin Interface, elimina el otro.
-django-extensions==3.2.3
-pandas==2.1.1
-openpyxl==3.1.2
-psycopg2-binary==2.9.8
-python-dotenv==1.0.0
-django-environ==0.10.0
+django-extensions
+openpyxl
+psycopg2-binary
+python-dotenv
+django-environ
 # Elimina python-decouple si no lo usas:
 # python-decouple==3.8
 gunicorn
