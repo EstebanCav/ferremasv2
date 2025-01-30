@@ -1,2 +1,2 @@
-web: gunicorn pepo.wsgi:app --log-file -
+web: gunicorn pepo.wsgi --log-file -
 
