@@ -20,3 +20,4 @@ django-environ==0.10.0
 gunicorn
 whitenoise
 cloudinary
+django-cloudinary-storage==0.3.0
