@@ -21,3 +21,4 @@ gunicorn
 whitenoise
 cloudinary
 django-cloudinary-storage==0.3.0
+colorfield
